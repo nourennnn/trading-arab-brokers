@@ -1,0 +1,37 @@
+# .github/workflows/generate.yml
+name: Generate daily Arabic trading article
+
+on:
+  schedule:
+    - cron: "0 8 * * *"          # tous les jours à 08h00 UTC
+  workflow_dispatch: {}          # bouton "Run workflow" dans GitHub
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: pip install openai jinja2
+
+      - name: Generate article
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: python generate.py
+
+      - name: Commit & push
+        run: |
+          git config --local user.name  "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Add article $(date +%F)" || exit 0
+          git push
