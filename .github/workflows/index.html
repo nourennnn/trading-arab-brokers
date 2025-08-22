@@ -4,24 +4,48 @@
     <meta charset="UTF-8">
     <title>أفضل وسطاء التداول بالعمولة</title>
     <style>
-        body { font-family: Arial; margin: 20px; background: #f5f5f5; }
-        .broker-card { background: white; padding: 20px; margin: 10px; border-radius: 10px; }
-        .commission { color: green; font-weight: bold; }
+        body { font-family: 'Arial', sans-serif; margin: 0; background: #f5f5f5; }
+        header { background: #0d6efd; color: white; padding: 20px; text-align: center; }
+        .container { max-width: 900px; margin: 30px auto; padding: 0 15px; }
+        .broker-card { background: white; padding: 25px; margin-bottom: 20px; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,.1); }
+        .broker-card h2 { margin-top: 0; color: #0d6efd; }
+        .commission { color: #198754; font-weight: bold; font-size: 1.1em; }
+        .btn-primary { background: #0d6efd; color: white; padding: 12px 25px; border: none; border-radius: 6px; text-decoration: none; display: inline-block; margin-top: 10px; }
+        footer { text-align: center; padding: 20px; color: #666; }
     </style>
 </head>
 <body>
-    <h1>🏦 مقارنة برامج التداول بالعمولة</h1>
-    
-    <div class="broker-card">
-        <h2>Exness</h2>
-        <p>العمولة: <span class="commission">حتى $1850 لكل عميل</span></p>
-        <a href="https://www.exness.com/ar/a/votre-lien" target="_blank">سجل الآن</a>
+    <header>
+        <h1>🏦 مقارنة برامج التداول بالعمولة</h1>
+        <p>أفضل العروض للعالم العربي – محدّث تلقائيًا كل يوم</p>
+    </header>
+
+    <div class="container">
+        <div class="broker-card">
+            <h2>Exness</h2>
+            <p>العمولة: <span class="commission">حتى $1850 لكل عميل</span></p>
+            <a class="btn-primary" href="https://one.exnesstrack.org/a/4k9ixk9r62" target="_blank">سجّل الآن</a>
+        </div>
+
+        <div class="broker-card">
+            <h2>XM</h2>
+            <p>العمولة: <span class="commission">حتى $650 لكل عميل</span></p>
+            <a class="btn-primary" href="https://one.justmarkets.link/a/ky35s0rnl8" target="_blank">سجّل الآن</a>
+        </div>
+
+        <div class="broker-card">
+            <h2>just market</h2>
+            <p>العمولة: <span class="commission">حتى $800 لكل عميل</span></p>
+            <a class="btn-primary" href="https://one.justmarkets.link/a/ky35s0rnl8" target="_blank">سجّل الآن</a>
+        </div>
     </div>
-    
-    <div class="broker-card">
-        <h2>XM</h2>
-        <p>العمولة: <span class="commission">حتى $650 لكل عميل</span></p>
-        <a href="https://clicks.pipaffiliates.com/c?c=votre-id" target="_blank">سجل الآن</a>
-    </div>
+
+    <footer>
+        آخر تحديث: <span id="last-updated"></span>
+    </footer>
+
+    <script>
+        document.getElementById('last-updated').textContent = new Date().toLocaleString('ar-SA');
+    </script>
 </body>
 </html>
