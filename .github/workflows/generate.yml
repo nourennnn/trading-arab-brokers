@@ -1,37 +1,36 @@
-# .github/workflows/generate.yml
-name: Generate daily Arabic trading article
-
+name: Build
 on:
+  workflow_dispatch:
   schedule:
-    - cron: "0 8 * * *"          # tous les jours à 08h00 UTC
-  workflow_dispatch: {}          # bouton "Run workflow" dans GitHub
-
+    - cron: "0 8 * * *"
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.11"
-
-      - name: Install deps
-        run: pip install openai jinja2
-
-      - name: Generate article
+      - uses: actions/setup-python@v4
+        with: {python-version: "3.11"}
+      - run: pip install openai
+      - run: |
+          mkdir -p posts
+          python3 - "$GITHUB_WORKSPACE" <<'PY'
+import os,sys,datetime,openai
+openai.api_key=os.environ["OPENAI_API_KEY"]
+d=datetime.date.today().isoformat()
+t="كيف تربح 1500$ شهرياً من برنامج Exness للشراكة"
+r=openai.ChatCompletion.create(
+  model="gpt-3.5-turbo",
+  messages=[{"role":"user","content":f"اكتب مقالاً عربياً طويلاً بعنوان '{t}' يشرح الربح من برنامج الشراكة وضع روابط Exness https://www.exness.com/a/12345 وXM https://clicks.pipaffiliates.com/c?c=67890. لا تستخدم HTML، فقط نص."}]
+)["choices"][0]["message"]["content"]
+Path=f"{sys.argv[1]}/posts/{d}.html"
+with open(Path,"w",encoding="utf8") as f:
+  f.write(f"""<!doctype html><html lang="ar" dir="rtl"><meta charset="utf-8"><title>{t}</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"><div class="container py-5"><h1>{t}</h1><p>{r}</p><a href="/">← العودة</a></div>""")
+PY
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: python generate.py
-
-      - name: Commit & push
-        run: |
-          git config --local user.name  "github-actions[bot]"
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .
-          git commit -m "Add article $(date +%F)" || exit 0
+      - run: |
+          git config user.name "bot"
+          git config user.email "bot@example.com"
+          git add posts
+          git commit -m "post $(date +%F)" || true
           git push
