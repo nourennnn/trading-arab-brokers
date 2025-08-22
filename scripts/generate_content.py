@@ -1,5 +1,4 @@
 from datetime import datetime
-import os
 
 def creer_contenu_mis_a_jour():
     brokers = [
@@ -17,10 +16,9 @@ def creer_contenu_mis_a_jour():
             <a class="btn-primary" href="{b['url']}" target="_blank">سجّل الآن</a>
         </div>
         """
-    with open("content/latest.html", "w", encoding="utf-8") as f:
+    with open("index.html", "w", encoding="utf-8") as f:
         f.write(html_snippet)
 
 if __name__ == "__main__":
-    os.makedirs("content", exist_ok=True)
     creer_contenu_mis_a_jour()
     print("✅ Contenu généré.")
